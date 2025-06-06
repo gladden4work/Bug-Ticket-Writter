@@ -1,0 +1,156 @@
+
+Standard Jira Bug/Task Description Format:
+
+1. HubSpot Integration (if applicable):
+   {panel:bgColor=#deebff}
+   h4. HubSpot linked tickets:
+   * [Ticket Title (Ticket ID: XXXXXXXXX)](https://app.hubspot.com/...)
+   _(please, do not edit or duplicate in description)_
+   {panel}
+
+2. Client Information:
+   Client Name: [Client Company Name]
+   Client ID: [Unique Client Identifier]
+   Store Name: [Store/Branch Name]
+   Store ID: [Unique Store Identifier]
+
+3. Issue Details:
+   Receipt No.: [Receipt Number] (if applicable)
+
+4. Steps to Replicate:
+   # [Step 1]
+   # [Step 2]
+   # [Step 3]
+
+5. Current Behaviour/Actual Result:
+   [Description of what is currently happening]
+
+6. Expected Behaviour/Expected Result:
+   [Description of what should happen]
+
+7. Attachments:
+   ![filename.png|width=XXX,height=XXX,alt="filename.png"]
+   [Additional screenshots or files as needed]
+
+8. Additional Context (if needed):
+   - Background information
+   - Technical details
+   - References to other systems
+
+
+Sample descriptions analyzed:
+
+--- Description 1 ---
+Step to replecate: 
+
+
+
+* IP: 
+
+** Commission Calculation = On 
+
+** Multiple Staff Mode = Off
+
+* HQ: 
+
+** Product Commission configuration = Yes 
+
+* User perform a transaction in POS 
+
+* Expected result 
+
+** Salesperson receive commission
+
+* Actual result
+
+** Salesperson did not receive commission 
+
+
+
+Tester stores (PROD)
+
+
+
+* Client ID: 8Y0yVOmwTVvtvEI2VrS2 - 1 testing 
+
+* Store ID: zrpU8CAO33l8rY0hPCFG - 那酒这样bar
+--- Description 2 ---
+h4. *Background*
+
+
+
+* Merchants with high transaction volume (e.g. ~25k stock actions per item) experience long loading times or loading spinners on the stock action page.
+
+* Previously considered solutions like:
+
+** Filtering to last 3 months of records (found ineffective in some cases).
+
+** Manual deletion of records (not scalable).
+
+* After discussion, pagination is identified as the most scalable and user-friendly solution.
+
+
+
+h4. *Problem Statement*
+
+
+
+Stock action pages fail to load or are very slow for merchants with high stock movement volume due to the current method of loading all records at once.
+
+
+
+h4. *Proposed Solution*
+
+
+
+Implement server-side pagination for the stock action page, including the following:
+
+
+
+# *Pagination Rules*
+
+#* Default: {{Records per page = 10}}, load first 10 records.
+
+#* User clicks {{>}} → load next 10 records.
+
+#* If {{Records per page = 50}}, load 50 and *preload* the next 50 and 100 records in the background (for better user experience).
+
+# *Backend Changes*
+
+#* Move data retrieval to backend.
+
+# *Performance Optimization*
+
+#* Implement record preloading where feasible: 3 months?  or 250 records?
+--- Description 3 ---
+Patch the data for the following merchants 
+
+
+
+Where to patch: Client →   <clientid> → StoreLock → <storeid>
+
+like this: [https://console.firebase.google.com/u/0/project/qashiertest/firestore/databases/-default-/data/~2FClient~2FzbN8o8FV3frCHW50picw~2FStoreLock~2FE650wwVC1qVLaOigE5Lf|https://console.firebase.google.com/u/0/project/qashiertest/firestore/databases/-default-/data/~2FClient~2FzbN8o8FV3frCHW50picw~2FStoreLock~2FE650wwVC1qVLaOigE5Lf]
+
+
+
+Items to be patched: 
+
+
+
+*duitnowqr soundbox*
+
+  *fixedFee: 0*
+
+  *minimumProcessingFeeInt: 1*
+
+  *rate: 0.005*
+
+  *taxRate: 0*
+
+
+
+
+
+
+
+[^Updated_Soundbox_Merchant_List.xlsx]

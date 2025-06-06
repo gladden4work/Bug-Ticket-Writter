@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Ticket Description Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Jira Ticket Description Generator</h1>
+            <p class="header__subtitle">Generate properly formatted Jira ticket descriptions for the Qashier team</p>
+        </header>
+
+        <div class="app-layout">
+            <div class="form-section">
+                <form id="ticketForm" class="ticket-form">
+                    <!-- Issue Type Selection -->
+                    <div class="form-group">
+                        <label class="form-label">Issue Type *</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="issueType" value="Bug" required>
+                                <span class="radio-label">Bug</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="issueType" value="Task" required>
+                                <span class="radio-label">Task</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="issueType" value="Improvement" required>
+                                <span class="radio-label">Improvement</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="issueType" value="Story" required>
+                                <span class="radio-label">Story</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- HubSpot Integration -->
+                    <div class="form-section-group">
+                        <h3>HubSpot Integration (Optional)</h3>
+                        <div class="form-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="linkHubSpot" name="linkHubSpot">
+                                <span class="checkbox-label">Link HubSpot Ticket</span>
+                            </label>
+                        </div>
+                        <div id="hubspotFields" class="hubspot-fields hidden">
+                            <div class="form-group">
+                                <label for="ticketTitle" class="form-label">Ticket Title</label>
+                                <input type="text" id="ticketTitle" name="ticketTitle" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="ticketId" class="form-label">Ticket ID</label>
+                                <input type="text" id="ticketId" name="ticketId" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="hubspotUrl" class="form-label">HubSpot URL</label>
+                                <input type="url" id="hubspotUrl" name="hubspotUrl" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Information -->
+                    <div class="form-section-group">
+                        <h3>Client Information *</h3>
+                        <div class="form-group">
+                            <label for="clientName" class="form-label">Client Name</label>
+                            <input type="text" id="clientName" name="clientName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientId" class="form-label">Client ID</label>
+                            <input type="text" id="clientId" name="clientId" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeName" class="form-label">Store Name</label>
+                            <input type="text" id="storeName" name="storeName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeId" class="form-label">Store ID</label>
+                            <input type="text" id="storeId" name="storeId" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Issue Details -->
+                    <div class="form-section-group">
+                        <h3>Issue Details</h3>
+                        <div class="form-group">
+                            <label for="receiptNumber" class="form-label">Receipt Number (Optional)</label>
+                            <input type="text" id="receiptNumber" name="receiptNumber" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="backgroundInfo" class="form-label">Background Information (Optional)</label>
+                            <textarea id="backgroundInfo" name="backgroundInfo" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Steps to Replicate -->
+                    <div class="form-section-group">
+                        <h3>Steps to Replicate *</h3>
+                        <div id="stepsContainer" class="steps-container">
+                            <div class="step-item">
+                                <input type="text" name="step" class="form-control step-input" placeholder="Enter step..." required>
+                                <button type="button" class="btn btn--secondary btn--sm remove-step" disabled>Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" id="addStep" class="btn btn--outline btn--sm">Add Step</button>
+                    </div>
+
+                    <!-- Behavior Description -->
+                    <div class="form-section-group">
+                        <h3>Behavior Description *</h3>
+                        <div class="form-group">
+                            <label for="currentBehavior" class="form-label">Current Behavior/Actual Result</label>
+                            <textarea id="currentBehavior" name="currentBehavior" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="expectedBehavior" class="form-label">Expected Behavior/Expected Result</label>
+                            <textarea id="expectedBehavior" name="expectedBehavior" class="form-control" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Attachments -->
+                    <div class="form-section-group">
+                        <h3>Attachments (Optional)</h3>
+                        <div id="attachmentsContainer" class="attachments-container">
+                            <!-- Dynamic attachments will be added here -->
+                        </div>
+                        <button type="button" id="addAttachment" class="btn btn--outline btn--sm">Add Attachment</button>
+                    </div>
+
+                    <!-- Additional Context -->
+                    <div class="form-section-group">
+                        <h3>Additional Context</h3>
+                        <div class="form-group">
+                            <label for="additionalNotes" class="form-label">Additional Notes/Technical Details (Optional)</label>
+                            <textarea id="additionalNotes" name="additionalNotes" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" id="resetForm" class="btn btn--secondary">Reset Form</button>
+                        <button type="submit" class="btn btn--primary">Generate Description</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Live Preview and Output -->
+            <div class="preview-section">
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Live Preview</h3>
+                    </div>
+                    <div class="card__body">
+                        <div id="livePreview" class="preview-content">
+                            <p class="preview-placeholder">Fill out the form to see a live preview of your Jira description...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Generated Description</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="output-actions">
+                            <button id="copyToClipboard" class="btn btn--primary btn--sm" disabled>Copy to Clipboard</button>
+                            <button id="downloadDescription" class="btn btn--secondary btn--sm" disabled>Download as .txt</button>
+                        </div>
+                        <textarea id="generatedOutput" class="form-control output-textarea" readonly rows="15" placeholder="Generated Jira description will appear here..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
